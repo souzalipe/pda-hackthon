@@ -206,20 +206,19 @@ const infoMocking = [
 export function DashboardPage() {
   return (
     <Box>
-      <Box>header</Box>
       <Box>
         <h1>Pagina de hoteis</h1>
         <Flex>
-        {infoMocking.map((info) => (
-          <PlaceCard
-            key={info.placeId}
-            thumb={info.mainImage}
-            name={info.name}
-            rating={info.rating}
-            description={info.description}
-            amenities={[]}
-          />
-        ))}
+          {infoMocking.map((info) => (
+            <PlaceCard
+              key={info.placeId}
+              thumb={info.mainImage}
+              name={info.name}
+              rating={info.rating}
+              description={info.description}
+              amenities={[]}
+            />
+          ))}
         </Flex>
       </Box>
     </Box>
