@@ -1,30 +1,68 @@
 import React from "react";
 import "../Register/Register.css";
+import Imgregister from "../../assets/register.svg"
 
 export function Register() {
   return (
-    <div>
-       <div className="contact-page-wrapper">
-        <h1 className="">Sing On</h1>
-        <div className="primary-heading">
-          <form action="">
-            <label htmlFor="" className="">
-              Nome
-            </label>
-            <input type="text" placeholder="Seu Nome" />
+    <body>
+      <div class="container">
+        <div class="form-image">
+          <img src={Imgregister} alt="" />
+        </div>
+        <div class="form">
+          <form action="#">
+            <div class="form-header">
+              <div class="title">
+                <h1>Cadastre-se</h1>
+              </div>
+            </div>
 
-            <label htmlFor="" className="">
-              Email
-            </label>
-            <input type="text" placeholder="SeuEmail@gmail.com" />
+            <div class="input-group">
+              <div class="input-box">
+                <label for="firstname">Primeiro Nome</label>
+                <input
+                  id="firstname"
+                  type="text"
+                  name="firstname"
+                  placeholder="Digite seu nome"
+                  required
+                />
+              </div>
 
-            <label htmlFor="">Senha</label>
-            <input type="text" placeholder="Sua Senha" />
+             
+              <div class="input-box">
+                <label for="email">E-mail</label>
+                <input
+                  id="email"
+                  type="email"
+                  name="email"
+                  placeholder="Digite seu e-mail"
+                  required
+                />
+              </div>
 
-            <button className="">Vamos lá</button>
+              <div class="input-box">
+                <label for="passwor">Senha</label>
+                <input
+                  id="email"
+                  type="password"
+                  name="password"
+                  placeholder="Digite sua senha"
+                  required
+                />
+              </div>
+
+             
+            </div>
+
+            <div class="continue-button">
+              <button>
+                <a href="#">Vamos lá</a>{" "}
+              </button>
+            </div>
           </form>
         </div>
       </div>
-    </div>
+    </body>
   );
 }
