@@ -5,6 +5,7 @@ import { router } from "./router/router";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import "./global.css";
+import 'mapbox-gl/dist/mapbox-gl.css';
 
 const theme = createTheme({});
 
