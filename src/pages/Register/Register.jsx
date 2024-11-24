@@ -103,6 +103,7 @@ export function Register() {
   }
 
   return (
+    <div>
     <div className="register-container">
       <div className="register-form-wrapper">
         <form onSubmit={handleSubmit} className="register-form">
@@ -120,9 +121,7 @@ export function Register() {
               maxLength="100" 
             />
           </div>
-
-    
-
+  
           <div className="input-row">
             <div className="input-group">
               <label htmlFor="latitude" className="input-label">Latitude</label>
@@ -153,23 +152,22 @@ export function Register() {
               />
             </div>
           </div>
-
-
+  
           <div className="input-group">
-              <label htmlFor="stars" className="input-label">Estrelas</label>
-              <input 
-                id="stars" 
-                type="number" 
-                ref={starsRef} 
-                step="any"
-                min="0"
-                max="5"
-                placeholder="Ex: 5" 
-                required 
-                className="input-field" 
-              />
-            </div>
-
+            <label htmlFor="stars" className="input-label">Estrelas</label>
+            <input 
+              id="stars" 
+              type="number" 
+              ref={starsRef} 
+              step="any"
+              min="0"
+              max="5"
+              placeholder="Ex: 5" 
+              required 
+              className="input-field" 
+            />
+          </div>
+  
           <div className="input-group">
             <label htmlFor="description" className="input-label">Descrição</label>
             <textarea 
@@ -182,7 +180,7 @@ export function Register() {
               maxLength="1000"
             ></textarea>
           </div>
-
+  
           <div className="input-group">
             <label htmlFor="address" className="input-label">Endereço</label>
             <input 
@@ -195,7 +193,7 @@ export function Register() {
               maxLength="200" 
             />
           </div>
-
+  
           <div className="input-row">
             <div className="input-group">
               <label htmlFor="district" className="input-label">Bairro</label>
@@ -222,7 +220,7 @@ export function Register() {
               />
             </div>
           </div>
-
+  
           <div className="input-row">
             <div className="input-group">
               <label htmlFor="state" className="input-label">Estado</label>
@@ -249,7 +247,7 @@ export function Register() {
               />
             </div>
           </div>
-
+  
           <div className="input-group">
             <label htmlFor="link" className="input-label">Link da Hospedagem</label>
             <input 
@@ -258,10 +256,10 @@ export function Register() {
               type="url" 
               placeholder="https://exemplo.com" 
               className="input-field"
-              pattern="https?://.+"
+              pattern="https?://.+" 
             />
           </div>
-
+  
           <div className="input-group">
             <label htmlFor="category" className="input-label">Categoria</label>
             <input 
@@ -274,8 +272,7 @@ export function Register() {
               maxLength="50" 
             />
           </div>
-
-
+  
           <div className="input-group">
             <label htmlFor="amenities" className="input-label">Comodidades</label>
             <input 
@@ -288,7 +285,7 @@ export function Register() {
               maxLength="200" 
             />
           </div>
-
+  
           <div className="input-group">
             <label htmlFor="pois" className="input-label">Atividades próximas</label>
             <input 
@@ -301,13 +298,15 @@ export function Register() {
               maxLength="200" 
             />
           </div>
-
+  
           <button type="submit" className="submit-button" ref={submitButtonRef}>
             Adicionar Hospedagem
           </button>
         </form>
       </div>
     </div>
+  </div>
+    
   );
 }
 
