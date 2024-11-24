@@ -1,225 +1,320 @@
-import { Box, Flex } from "@radix-ui/themes";
+import Box from "@mui/material/Box";
 import { PlaceCard } from "../../components/PlaceCard";
+import { useState, useEffect } from "react";
+import { Header } from "../../components/Header";
+import Typography from "@mui/material/Typography";
+import axios from "axios";
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
 
-const infoMocking = [
-  {
-    name: "Glória Plaza Hotel",
-    rating: 3,
-    latitude: -23.5572746,
-    longitude: -46.6341251134872,
-    description:
-      'Um hotel romântico somente para adultos (Adults Only), com decoração moderna e temática oriental, atendendo ao gosto dos clientes mais exigentes. Localizado no bairro da Liberdade, a 200 metros da estação do metrô, no coração da cidade de São Paulo, o Glória Plaza Hotel conta com seis categorias de suítes. Destaque para Suíte Hidro Master equipada com ar-condicionado split, cama super king size, banheira de hidromassagem dupla, iluminação especial, wi-fi, sistema de som bluetooth e TV LCD 49".',
-    address: {
-      street: "Rua da Gloria , 452",
-      neighborhood: "Liberdade",
-      city: "Sao Paulo",
-      state: "SP",
-      country: "BR",
-    },
-    placeId: "ChIJ0WGkg4FEzpQRrlsz_whLqZs",
-    mainImage:
-      "https://i.t4w.mobi/h/BR/1010502/1257353/1257353_8859Property605322.jpg",
-    gallery: [
-      "https://i.t4w.mobi/h/BR/1010502/1257353/1257353_8859Property605322.jpg",
-      "https://i.t4w.mobi/h/BR/1010502/1257353/1257353_8859Property398788.jpg",
-      "https://i.t4w.mobi/h/BR/1010502/1257353/1257353_8859Property398789.jpg",
-      "https://i.t4w.mobi/h/BR/1010502/1257353/1257353_8859Property398790.jpg",
-      "https://i.t4w.mobi/h/BR/1010502/1257353/1257353_8859Property398791.jpg",
-      "https://i.t4w.mobi/h/BR/1010502/1257353/1257353_8859Property398793.jpg",
-      "https://i.t4w.mobi/h/BR/1010502/1257353/1257353_8859Property398794.jpg",
-      "https://i.t4w.mobi/h/BR/1010502/1257353/1257353_8859Property398795.jpg",
-      "https://i.t4w.mobi/h/BR/1010502/1257353/1257353_8859Property398796.jpg",
-      "https://i.t4w.mobi/h/BR/1010502/1257353/1257353_8859Property398797.jpg",
-      "https://i.t4w.mobi/h/BR/1010502/1257353/1257353_8859Property398798.jpg",
-      "https://i.t4w.mobi/h/BR/1010502/1257353/1257353_8859Property398799.jpg",
-      "https://i.t4w.mobi/h/BR/1010502/1257353/1257353_8859Property605323.jpg",
-      "https://i.t4w.mobi/h/BR/1010502/1257353/1257353_8859Property605324.jpg",
-      "https://i.t4w.mobi/h/BR/1010502/1257353/1257353_8859Property605325.jpg",
-    ],
-    amenities: [
-      { key: "WI_FI", label: "Internet" },
-      { key: "BREAKFAST", label: "Café da manhã" },
-      { key: "PARKING", label: "Estacionamento" },
-      { key: "RESTAURANT", label: "Restaurante" },
-    ],
-    nearbyPlaces: [
-      {
-        lat: -23.557189999999935,
-        long: -46.63489999999996,
-        name: "Yamamoto",
-        type: "Food",
-        address: "Rua Américo de Campos 84, Liberdade, São Paulo, 01506-010",
-        distance: 1.2,
-      },
-      {
-        lat: -23.55804999999998,
-        long: -46.63406999999995,
-        name: "Chopperia Liberdade",
-        type: "Food",
-        address: "Rua da Glória 523, Liberdade, São Paulo, 01510-000",
-        distance: 1.35,
-      },
-      {
-        lat: -23.55806999999993,
-        long: -46.63394999999997,
-        name: "Karaokê Tequila's",
-        type: "Food",
-        address: "Rua da Glória 543, Liberdade, São Paulo, 01510-000",
-        distance: 1.35,
-      },
-      {
-        lat: -23.55734999999993,
-        long: -46.63505999999995,
-        name: "Banri Katian",
-        type: "Food",
-        address: "Rua Galvão Bueno 205, Liberdade, São Paulo, 01506-000",
-        distance: 1.5,
-      },
-      {
-        lat: -23.558149999999955,
-        long: -46.63391999999993,
-        name: "Okuyama",
-        type: "Food",
-        address: "Rua da Glória 553, Liberdade, São Paulo, 01510-000",
-        distance: 1.5,
-      },
-      {
-        lat: -23.55747999999994,
-        long: -46.63522999999998,
-        name: "Banco do Brasil",
-        type: "Bank",
-        address: "Rua Galvão Bueno 218, Liberdade, São Paulo, 01506-000",
-        distance: 1.65,
-      },
-      {
-        lat: -23.557049999999947,
-        long: -46.63271999999995,
-        name: "Bradesco",
-        type: "Bank",
-        address: "Rua São Paulo 26, Liberdade, São Paulo, 01513-000",
-        distance: 2.25,
-      },
-    ],
-    reviews: [],
-  },
-  {
-    name: "Paraíso Suites by Charlie",
-    rating: 3,
-    latitude: -23.5768926,
-    longitude: -46.6427201,
-    description:
-      "Com uma localização atraente no bairro de Vila Mariana, em São Paulo, o Paulista Suites by Charlie fica a 1,8 km do Pavilhão Ciccillo Matarazzo, a 2,2 km do Parque do Ibirapuera e a 2,3 km do MASP São Paulo. A propriedade oferece recepção 24 horas, lounge compartilhado e Wi-Fi gratuito em todas as áreas. O hotel dispõe de quartos família. Os quartos dispõem de ar-condicionado, área de estar, TV de tela plana a cabo, cofre e banheiro privativo com chuveiro. O Paulista Suites by Charlie dispõe de alguns quartos com vista da cidade, e todos os quartos têm uma chaleira. As acomodações incluem roupa de cama e toalhas. No Paulista Suites by Charlie, você pode desfrutar de um café da manhã à la carte. Um business center está à sua disposição no hotel. O Paulista Suites by Charlie fica a 2,9 km da Catedral Metropolitana de São Paulo e a 3,4 km do Edifício Copan. O aeroporto mais próximo é o Aeroporto de Congonhas/São Paulo, a 6 km da acomodação.",
-    address: {
-      street: "RUA APENINOS , 1070",
-      neighborhood: "Paraíso",
-      city: "Sao Paulo",
-      state: "SP",
-      country: "BR",
-    },
-    placeId: "ChIJ0WGkg4FEzpQRrlsz_whLqZs",
-    mainImage: "https://media.omnibees.com/Images/15483/Property/871274.jpg",
-    gallery: [
-      "https://media.omnibees.com/Images/15483/Property/871274.jpg",
-      "https://media.omnibees.com/Images/15483/Property/871275.jpg",
-      "https://media.omnibees.com/Images/15483/Property/871276.jpg",
-      "https://media.omnibees.com/Images/15483/Property/871277.jpg",
-      "https://media.omnibees.com/Images/15483/Property/871278.jpg",
-      "https://media.omnibees.com/Images/15483/Property/871279.jpg",
-      "https://media.omnibees.com/Images/15483/Property/871280.jpg",
-      "https://media.omnibees.com/Images/15483/Property/871281.jpg",
-      "https://media.omnibees.com/Images/15483/Property/871283.jpg",
-      "https://media.omnibees.com/Images/15483/Property/871284.jpg",
-      "https://media.omnibees.com/Images/15483/Property/871285.jpg",
-      "https://media.omnibees.com/Images/15483/Property/871286.jpg",
-      "https://images.trvl-media.com/lodging/1000000/920000/915000/915000/8e3b777f.jpg?impolicy=fcrop&w=1200&h=800&p=1&q=medium",
-      "https://contentstatic.blob.core.windows.net/prd/predios/paraiso-suites/006.jpeg",
-      "https://contentstatic.blob.core.windows.net/prd/predios/paraiso-suites/005.jpeg",
-      "https://contentstatic.blob.core.windows.net/prd/predios/paraiso-suites/002.jpeg",
-    ],
-    amenities: [
-      { key: "WI_FI", label: "Internet" },
-      { key: "BREAKFAST", label: "Café da manhã" },
-      { key: "PARKING", label: "Estacionamento" },
-      { key: "RESTAURANT", label: "Restaurante" },
-      { key: "LAUNDRY", label: "Lavanderia" },
-      { key: "FITNESS_CENTER", label: "Academia" },
-    ],
-    nearbyPlaces: [
-      {
-        lat: -23.57704999999993,
-        long: -46.64322999999996,
-        name: "Confeitaria Asti",
-        type: "Food",
-        address: "Rua Cubatão 580, Vila Mariana, São Paulo, 04013-002",
-        distance: 0.75,
-      },
-      {
-        lat: -23.577369999999977,
-        long: -46.64293999999995,
-        name: "Pizzeria Cézanne",
-        type: "Food",
-        address: "Rua Cubatão 621, Vila Mariana, São Paulo, 04013-042",
-        distance: 0.9,
-      },
-      {
-        lat: -23.577489999999955,
-        long: -46.642859999999985,
-        name: "Ariake Bistrô",
-        type: "Food",
-        address: "Rua Cubatão 639, Vila Mariana, São Paulo, 04013-042",
-        distance: 1.05,
-      },
-      {
-        lat: -23.57756999999998,
-        long: -46.64268999999996,
-        name: "Hora Hora",
-        type: "Food",
-        address: "Rua Estela 180, Vila Mariana, São Paulo, 04011-000",
-        distance: 1.2,
-      },
-      {
-        lat: -23.57765999999998,
-        long: -46.64281999999997,
-        name: "Açai Com Graviola",
-        type: "Food",
-        address: "Rua Cubatão, Vila Mariana, São Paulo, 04013-042",
-        distance: 1.35,
-      },
-      {
-        lat: -23.575879999999927,
-        long: -46.64142999999996,
-        name: "Metrô-Paraíso-Avenida Bernardino de Campos-Lado Par",
-        type: "Metro",
-        address:
-          "Avenida Bernardino de Campos, Vila Mariana, São Paulo, 04004-040",
-        distance: 2.55,
-      },
-    ],
-    reviews: [],
-    createdAt: "2023-01-09T23:24:51",
-    updatedAt: "2023-08-25T09:27:37",
-  },
-];
-
-// Card clicável direciona para página de detalhes
+import CircularProgress from "@mui/material/CircularProgress";
 
 export function DashboardPage() {
+  const [hotels, setHotels] = useState([
+    {
+      id: "",
+      name: "",
+      stars: 0,
+      latitude: "",
+      longitude: "",
+      description: "",
+      address: " ",
+      district: "",
+      city: "",
+      state: "",
+      country: "",
+      placeid: "",
+      images: [""],
+      amenities: [
+        {
+          key: "",
+          label: "",
+        },
+      ],
+      category: {
+        name: "",
+      },
+    },
+  ]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+  const [filters, setFilters] = useState({
+    name: "",
+    stars: "",
+    city: "",
+    country: "",
+    category: "",
+    page: 1,
+    limit: 10,
+    orderby: "name",
+    sort: "ASC",
+  });
+  const [meta, setMeta] = useState({ total: 0, page: 1, pages: 1 });
+
+  useEffect(() => {
+    fetchHotels();
+  }, [
+    filters.page,
+    filters.limit,
+    filters.orderby,
+    filters.sort,
+    filters.category,
+  ]);
+
+  const fetchHotels = async () => {
+    try {
+      setLoading(true);
+      const baseUrl = "http://localhost:3000/api/hotels";
+      const endpoint = filters.category
+        ? `${baseUrl}/category/${filters.category}`
+        : baseUrl;
+
+      const response = await axios.get(endpoint, {
+        params: {
+          name: filters.name,
+          stars: filters.stars,
+          city: filters.city,
+          country: filters.country,
+          page: filters.page,
+          limit: filters.limit,
+          orderby: filters.orderby,
+          sort: filters.sort,
+        },
+      });
+      console.log(response.data)
+
+      setHotels(response.data.data || [...response.data]);
+      if (response.data.meta) {
+        setMeta(response.data.meta);
+      }
+      if (response.status == 404) {
+        setError("Category not found");
+      }
+      setLoading(false);
+    } catch (err) {
+      setError("Failed to fetch hotels");
+      setLoading(false);
+    }
+  };
+
+  const handleFilterChange = (e) => {
+    setFilters({ ...filters, [e.target.name]: e.target.value });
+    console.log({ [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setFilters({ ...filters, page: 1 }); // Reset to first page when applying new filters
+    fetchHotels();
+  };
+
+  const handlePageChange = (newPage) => {
+    setFilters({ ...filters, page: newPage });
+  };
+
+  const handleSortChange = (field) => {
+    setFilters({
+      ...filters,
+      orderby: field,
+      sort:
+        filters.orderby === field && filters.sort === "ASC" ? "DESC" : "ASC",
+    });
+  };
+
+  if (loading) {
+    <Box
+      display="flex"
+      justifyContent="center"
+      alignItems="center"
+      height="100vh"
+    >
+      <CircularProgress />
+    </Box>;
+  }
+
+  if (error) {
+    <Box>
+      <Typography color="error" variant="h6">
+        Ocorreu um erro ao buscar os hotéis. Por favor, tente novamente mais
+        tarde.
+      </Typography>
+    </Box>;
+  }
+
   return (
     <Box>
-      <Box>
-        <h1>Pagina de hoteis</h1>
-        <Flex>
-          {infoMocking.map((info) => (
+      <Header />
+      <h1 className="text-3xl font-bold mb-6">Lista de Hotéis</h1>
+      <form onSubmit={handleSubmit} className="mb-8 space-y-4">
+        <Box className="flex flex-wrap -mx-2">
+          <Box className="px-2 w-full sm:w-1/2 md:w-1/4">
+            <TextField
+              label="Nome"
+              type="text"
+              id="name"
+              name="name"
+              autoComplete="none"
+              value={filters.name}
+              onChange={handleFilterChange}
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
+            />
+          </Box>
+          <Box className="px-2 w-full sm:w-1/2 md:w-1/4">
+            <label
+              htmlFor="stars"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Estrelas
+            </label>
+            <select
+              id="stars"
+              name="stars"
+              value={filters.stars}
+              onChange={handleFilterChange}
+            >
+              <option value="">Todas</option>
+              <option value={"1"}>1 Estrela</option>
+              <option value={"2"}>2 Estrelas</option>
+              <option value={"3"}>3 Estrelas</option>
+              <option value={"4"}>4 Estrelas</option>
+              <option value={"5"}>5 Estrelas</option>
+            </select>
+          </Box>
+          <Box className="px-2 w-full sm:w-1/2 md:w-1/4">
+            <TextField
+              label="Cidade"
+              type="text"
+              id="city"
+              name="city"
+              value={filters.city}
+              onChange={handleFilterChange}
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
+            />
+          </Box>
+          <Box className="px-2 w-full sm:w-1/2 md:w-1/4">
+            <TextField
+              label="País"
+              type="text"
+              id="country"
+              name="country"
+              value={filters.country}
+              onChange={handleFilterChange}
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
+            />
+          </Box>
+          <Box>
+            Categorias
+            <select
+              id="category"
+              name="category"
+              value={filters.category}
+              onChange={handleFilterChange}
+            >
+              <option value={0}>Todas</option>
+              <option value={1}>Hotel</option>
+              <option value={2}>Pousada</option>
+              <option value={3}>Hostel/Albergue</option>
+              <option value={4}>Resort</option>
+              <option value={5}>Hotel fazenda</option>
+              <option value={6}>Flat/Apart Hotel</option>
+            </select>
+          </Box>
+        </Box>
+        <Box>
+          <Button
+            type="submit"
+            className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+          >
+            Aplicar Filtros
+          </Button>
+        </Box>
+      </form>
+      <Box className="overflow-x-auto">
+        <Box
+          sx={{
+            display: "flex",
+            width: "100%",
+            gap: 20,
+          }}
+        >
+          <Typography
+            scope="col"
+            className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer"
+            onClick={() => handleSortChange("name")}
+          >
+            Nome{" "}
+            {filters.orderby === "name" && (filters.sort === "ASC" ? "↑" : "↓")}
+          </Typography>
+          <Typography
+            scope="col"
+            className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer"
+            onClick={() => handleSortChange("stars")}
+          >
+            Estrelas{" "}
+            {filters.orderby === "stars" &&
+              (filters.sort === "ASC" ? "↑" : "↓")}
+          </Typography>
+          <Typography
+            scope="col"
+            className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer"
+            onClick={() => handleSortChange("city")}
+          >
+            Cidade{" "}
+            {filters.orderby === "city" && (filters.sort === "ASC" ? "↑" : "↓")}
+          </Typography>
+          <Typography
+            scope="col"
+            className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+          >
+            País
+          </Typography>
+          <Typography
+            scope="col"
+            className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+          >
+            Categoria
+          </Typography>
+        </Box>
+
+        {hotels?.length > 0 &&
+          hotels.map((hotel) => (
             <PlaceCard
-              key={info.placeId}
-              thumb={info.mainImage}
-              name={info.name}
-              rating={info.rating}
-              description={info.description}
-              amenities={[]}
+              to={`/hotel/${hotel.id}`}
+              key={hotel.id}
+              placeID={hotel.id}
+              thumb={hotel.images?.[0] || "/path/to/default-image.jpg"} // Fallback para imagem padrão
+              name={hotel.name || "Nome Indisponível"}
+              rating={hotel.stars || "Sem Avaliação"}
+              city={hotel.city || "Cidade Desconhecida"}
+              country={hotel.country || "País Desconhecido"}
+              category={hotel.category?.name || "Categoria Não Informada"}
             />
           ))}
-        </Flex>
+      </Box>
+      <Box className="mt-4 flex justify-between items-center">
+        <Box>
+          Mostrando {(meta.page - 1) * filters.limit + 1} -{" "}
+          {Math.min(meta.page * filters.limit, meta.total)} de {meta.total}{" "}
+          resultados
+        </Box>
+        <Box className="flex space-x-2">
+          <Button
+            onClick={() => handlePageChange(meta.page - 1)}
+            disabled={meta.page === 1}
+          >
+            <ArrowBackIosIcon />
+            Anterior
+          </Button>
+          <Button
+            onClick={() => handlePageChange(meta.page + 1)}
+            disabled={meta.page === meta.pages}
+          >
+            Próxima
+            <ArrowForwardIosIcon />
+          </Button>
+        </Box>
       </Box>
     </Box>
   );
