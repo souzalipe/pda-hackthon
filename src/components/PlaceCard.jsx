@@ -1,4 +1,5 @@
-import { Box, Card, Inset, Text, Strong } from "@radix-ui/themes";
+import Card from "@mui/material/Card";
+import Typography from "@mui/material/Typography";
 import PropTypes from "prop-types";
 
 export function PlaceCard({
@@ -8,35 +9,36 @@ export function PlaceCard({
   rating,
   hotelNetwork,
   amenities,
+  address,
 }) {
   return (
-    <Box maxWidth="250px">
       <Card size="2">
-        <Inset clip="padding-box" side="top" pb="current">
-          <img
-            src={thumb}
-            style={{
-              display: "block",
-              objectFit: "cover",
-              width: "100%",
-              height: 140,
-              backgroundColor: "var(--gray-5)",
-            }}
-          />
-        </Inset>
-        <Text>
-          <Strong>{name}</Strong>
-        </Text>
+        <img
+          src={thumb}
+          style={{
+            display: "block",
+            objectFit: "cover",
+            width: "100%",
+            height: 140,
+            backgroundColor: "var(--gray-5)",
+          }}
+        />
+
+        <Typography>
+          <strong>{name}</strong>
+        </Typography>
         <div>{rating}</div>
-        <Text>{category}</Text>
-        <Text> {hotelNetwork} </Text>
+        <Typography>{category}</Typography>
+        <Typography> {hotelNetwork} </Typography>
+        <Typography>
+          {address.city} {address.country}
+        </Typography>
         <div>
           {amenities.map((amenitie, index) => (
             <p key={index}> {amenitie.label} </p>
           ))}
         </div>
       </Card>
-    </Box>
   );
 }
 
@@ -47,4 +49,8 @@ PlaceCard.propTypes = {
   rating: PropTypes.number,
   hotelNetwork: PropTypes.string,
   amenities: PropTypes.array,
+  address: PropTypes.shape({
+    city: PropTypes.string,
+    country: PropTypes.string,
+  }),
 };
