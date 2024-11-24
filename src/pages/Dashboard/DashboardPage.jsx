@@ -8,9 +8,9 @@ import CircularProgress from "@mui/material/CircularProgress";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import { useState, useEffect } from "react";
-import { Header } from "../../components/Header";
 import { PlaceCard } from "../../components/PlaceCard";
 import axios from "axios";
+import { Navbar } from "../../components/Navbar"
 
 export function DashboardPage() {
   const [hotels, setHotels] = useState([]);
@@ -90,7 +90,7 @@ export function DashboardPage() {
 
   return (
     <Box>
-      <Header />
+      <Navbar/>
       <Typography variant="h4" gutterBottom>
         Lista de Hotéis
       </Typography>
