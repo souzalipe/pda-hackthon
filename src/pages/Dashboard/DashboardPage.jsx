@@ -36,28 +36,38 @@ export function DashboardPage() {
   const fetchHotels = async () => {
     try {
       setLoading(true);
+
       const baseUrl = "http://localhost:3000/api/hotels";
       const endpoint = filters.category
         ? `${baseUrl}/category/${filters.category}`
         : baseUrl;
 
+      const validFilters = Object.fromEntries(
+        Object.entries(filters).filter(([_, value]) => value !== "")
+      );
+
       const response = await axios.get(endpoint, {
-        params: {
-          ...filters,
-        },
+        params: validFilters,
       });
 
-      setHotels(response.data.data || [...response.data]);
-      setMeta(response.data.meta || { total: 0, page: 1, pages: 1 });
-      setLoading(false);
+      if (response.data) {
+        setHotels(response.data.data || response.data);
+        setMeta(response.data.meta || { total: 0, page: 1, pages: 1 });
+      }
     } catch (err) {
-      setError("Ocorreu um erro ao buscar os hotéis.");
+      console.error("Erro ao buscar os hotéis:", err);
+      setError(
+        "Ocorreu um erro ao buscar os hotéis. Por favor, tente novamente."
+      );
+    } finally {
       setLoading(false);
     }
   };
 
   const handleFilterChange = (e) => {
-    setFilters({ ...filters, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setFilters((prevFilters) => ({ ...prevFilters, [name]: value }));
+    console.log({ [name]: value });
   };
 
   const handleSubmit = (e) => {
@@ -200,6 +210,7 @@ export function DashboardPage() {
                 city={hotel.city}
                 country={hotel.country}
                 category={hotel.category?.name}
+                amenities={hotel.amenities || []}
               />
             ))}
           </Box>
