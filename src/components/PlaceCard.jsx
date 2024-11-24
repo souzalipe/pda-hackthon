@@ -27,7 +27,7 @@ export function PlaceCard({
         textDecoration: "none",
         display: "flex",
         maxWidth: "100%",
-        height: "10rem",
+        height: "12rem",
       }}
       elevation={3}
     >
@@ -75,16 +75,3 @@ export function PlaceCard({
     </Card>
   );
 }
-
-PlaceCard.propTypes = {
-  placeID: PropTypes.number,
-  thumb: PropTypes.string,
-  name: PropTypes.string,
-  category: PropTypes.string,
-  rating: PropTypes.number,
-  hotelNetwork: PropTypes.string,
-  amenities: PropTypes.array,
-  address: PropTypes.string,
-  city: PropTypes.string,
-  country: PropTypes.string,
-};
