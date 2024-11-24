@@ -83,7 +83,7 @@ export function DashboardPage() {
           sort: filters.sort,
         },
       });
-      console.log(response.data)
+      console.log(response.data);
 
       setHotels(response.data.data || [...response.data]);
       if (response.data.meta) {
@@ -212,7 +212,7 @@ export function DashboardPage() {
               value={filters.category}
               onChange={handleFilterChange}
             >
-              <option value={0}>Todas</option>
+              <option>Todas</option>
               <option value={1}>Hotel</option>
               <option value={2}>Pousada</option>
               <option value={3}>Hostel/Albergue</option>
