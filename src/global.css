@@ -5,9 +5,3 @@
   --black-200: #192a43;
   --white: #ffff;
 }
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
