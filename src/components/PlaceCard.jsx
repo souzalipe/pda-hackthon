@@ -59,17 +59,18 @@ export function PlaceCard({
           <Typography>
             <strong>{name}</strong>
           </Typography>
-          <Box>{rating}</Box>
+          <Box>{rating ? rating : "Sem avaliação"}</Box>
           <Typography>{category}</Typography>
-          {/* <Typography> {hotelNetwork} </Typography> */}
           <Typography>
             {city}, {country}
           </Typography>
-          {/* <Box sx={{ display: "flex", alignSelf: "bottom", flexWrap: "wrap" }}>
-            {amenities.map((amenitie, index) => (
+          <Box sx={{ display: "flex", alignSelf: "bottom", flexWrap: "wrap" }}>
+            {amenities.length > 0 ? amenities.map((amenitie, index) => (
               <Chip key={index} label={amenitie.label} />
-            ))}
-          </Box> */}
+            )) : 
+            <Chip label={"Sem comodidades"} />
+            }
+          </Box>
         </CardContent>
       </CardActionArea>
     </Card>
