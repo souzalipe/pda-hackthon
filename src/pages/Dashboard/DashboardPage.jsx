@@ -69,7 +69,6 @@ export function DashboardPage() {
   const handleFilterChange = (e) => {
     const { name, value } = e.target;
     setFilters((prevFilters) => ({ ...prevFilters, [name]: value }));
-    console.log({ [name]: value });
   };
 
   const handlePageChange = (newPage) => {
