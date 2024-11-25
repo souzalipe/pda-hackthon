@@ -11,6 +11,7 @@ import { useState, useEffect } from "react";
 import { PlaceCard } from "../../components/PlaceCard";
 import axios from "axios";
 import { Navbar } from "../../components/Navbar"
+import InputLabel from "@mui/material/InputLabel"
 
 export function DashboardPage() {
   const [hotels, setHotels] = useState([]);
@@ -36,25 +37,26 @@ export function DashboardPage() {
   const fetchHotels = async () => {
     try {
       setLoading(true);
-
       const baseUrl = "http://localhost:3000/api/hotels";
       const endpoint = filters.category
         ? `${baseUrl}/category/${filters.category}`
         : baseUrl;
-
-      const validFilters = Object.fromEntries(
-        Object.entries(filters).filter(([_, value]) => value !== "")
-      );
-
+       
       const response = await axios.get(endpoint, {
-        params: validFilters,
+        params: {
+          ...filters
+        },
       });
 
+      setHotels(response.data.data || [...response.data]);
+      setMeta(response.data.meta || { total: 0, page: 1, pages: 1 });
+      setLoading(false);
       if (response.data) {
         setHotels(response.data.data || response.data);
         setMeta(response.data.meta || { total: 0, page: 1, pages: 1 });
       }
     } catch (err) {
+      setError("Ocorreu um erro ao buscar os hotéis.");
       console.error("Erro ao buscar os hotéis:", err);
       setError(
         "Ocorreu um erro ao buscar os hotéis. Por favor, tente novamente."
@@ -68,11 +70,6 @@ export function DashboardPage() {
     const { name, value } = e.target;
     setFilters((prevFilters) => ({ ...prevFilters, [name]: value }));
     console.log({ [name]: value });
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setFilters({ ...filters, page: 1 });
   };
 
   const handlePageChange = (newPage) => {
@@ -95,7 +92,7 @@ export function DashboardPage() {
         Lista de Hotéis
       </Typography>
 
-      <form onSubmit={handleSubmit}>
+      <form>
         <Box display="flex" flexWrap="wrap" gap={2} mb={3}>
           <TextField
             label="Nome"
@@ -136,14 +133,16 @@ export function DashboardPage() {
             variant="outlined"
             fullWidth
           />
+            <InputLabel id="category">Categoria</InputLabel>
           <Select
             name="category"
             value={filters.category}
             onChange={handleFilterChange}
             displayEmpty
             fullWidth
+            label="Categoria"
           >
-            <MenuItem value="">Todas</MenuItem>
+            <MenuItem se>Todas</MenuItem>
             <MenuItem value="1">Hotel</MenuItem>
             <MenuItem value="2">Pousada</MenuItem>
             <MenuItem value="3">Hostel/Albergue</MenuItem>
@@ -152,9 +151,6 @@ export function DashboardPage() {
             <MenuItem value="6">Flat/Apart Hotel</MenuItem>
           </Select>
         </Box>
-        <Button variant="contained" color="primary" type="submit">
-          Aplicar Filtros
-        </Button>
       </form>
 
       {loading ? (
